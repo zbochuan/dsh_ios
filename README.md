@@ -4,7 +4,7 @@ English | [中文](README.zh.md)
 
 An independently designed iOS client for [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness), connecting to a computer through [ds-harness-remote](https://github.com/liguobao/ds-harness-remote).
 
-The computer runs the agent, model requests, project files, and tools. The Swift 6 / SwiftUI interface targets iPhone and iPad on iOS 17 and later. The client centers on a conversation, its history and one composer, with local demonstrations of replies, task activity and approvals. Remote Server login and computer discovery are implemented separately; remote conversations remain unavailable.
+The computer runs the agent, model requests, project files, and tools. The Swift 6 / SwiftUI interface targets iPhone and iPad on iOS 17 and later. The client centers on a task list grouped by computer, with task detail, approvals and a composer, shown locally with example tasks. Remote Server login and computer discovery are implemented separately; remote tasks remain unavailable.
 
 ## Project state
 

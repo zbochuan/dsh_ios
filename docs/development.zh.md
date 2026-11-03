@@ -26,7 +26,7 @@ python3 -I scripts/test_check_docs.py
 
 ## 应用开发
 
-打开 `DSH.xcodeproj`，选择共享 `DSH` scheme 和 iPhone 或 iPad 模拟器。最低部署版本为 iOS 17.0，源码使用 Swift 6。bundle identifier `app.dsh.ios` 是开发占位值。工程不保存签名团队或设备标识；真机测试的签名通过本机构建设置传入，不得进入 Git。选择“试用本地对话”即可打开空白本地对话，历史记录中保留含待处理审批的示例。Server 登录和设备发现需要明确填写 HTTPS Remote Server 及其账号，不使用 DeepSeek 模型密钥。
+打开 `DSH.xcodeproj`，选择共享 `DSH` scheme 和 iPhone 或 iPad 模拟器。最低部署版本为 iOS 17.0，源码使用 Swift 6。bundle identifier `app.dsh.ios` 是开发占位值。工程不保存签名团队或设备标识；真机测试的签名通过本机构建设置传入，不得进入 Git。在首屏打开示例任务即可载入本地示例任务，其中包含待处理审批。Server 登录和设备发现需要明确填写 HTTPS Remote Server 及其账号，不使用 DeepSeek 模型密钥。
 
 在 macOS 上独立运行核心测试：
 
@@ -60,7 +60,7 @@ xcodebuild -project DSH.xcodeproj -scheme DSH -destination 'generic/platform=iOS
 
 [iOS CI](../.github/workflows/ios.yml)针对应用变更及手动触发在 `macos-15` 上运行，明确选择 Xcode 26.2 和 iPhone 17 Pro / iOS 26.2。它调用 [check_ios.sh](../scripts/check_ios.sh)，检查工程引用、核心测试及无签名模拟器 UI 测试，结果包保留七天。仅修改文档不分配 macOS runner。这些工作流已加入仓库，但在推送并执行前，不声称已有 GitHub 运行结果。
 
-核心测试覆盖 Server 请求结构、无效响应、重定向拒绝、身份与凭据生命周期、Noise 向量与篡改、安全分片、演示流完成时不重复消息、中断后迟到片段，以及失效或已处理审批。修订后的 UI 测试覆盖入口与导航、空白输入、发送与停止后继续、历史切换、新建对话、退出演示及取消登录时的草稿保留、审批关闭与允许或拒绝、后台失效，以及最大字号下的主要操作，并附加浅色、深色和无障碍截图。测试仅在自身进程中覆盖连接默认值，且不提交登录凭据。stub 与本地密码学测试不能替代真实 Host 测试。任何任务均不使用用户日常的 Harness 安装或部署凭据。
+核心测试覆盖 Server 请求结构、无效响应、重定向拒绝、身份与凭据生命周期、Noise 向量与篡改、安全分片、演示流完成时不重复消息、中断后迟到片段，以及失效或已处理审批。任务控制台 UI 测试覆盖连接与示例入口、配对、空白输入、发送与停止后继续、从首页发起任务、新建任务及取消登录时的草稿保留、审批关闭与允许、拒绝或拒绝并说明、首页等待卡片、后台失效、不含跳过选项的权限菜单、分叉、抽屉搜索，以及最大字号下的主要操作，并附加浅色、深色和无障碍截图。测试仅在自身进程中覆盖连接默认值，且不提交登录凭据。stub 与本地密码学测试不能替代真实 Host 测试。任何任务均不使用用户日常的 Harness 安装或部署凭据。
 
 ## 验证记录
 
@@ -68,6 +68,7 @@ xcodebuild -project DSH.xcodeproj -scheme DSH -destination 'generic/platform=iOS
 
 | 检查 | 结果与范围 | 本地证据 |
 |---|---|---|
+| 任务控制台改版 | 2026-11-03，`check_ios.sh` 在同样的 Xcode 27.2 / iPhone 18 Pro / iOS 27.2 目标上针对提交 `9874ecf` 成功退出：43 项核心测试及全部 15 项 UI 测试通过，无失败或跳过。首页、任务详情、深色审批与深色配对截图已完成视觉检查。本次修订未检查 iPad 布局、VoiceOver 顺序和真机。 | `build/task-console-validation.log`、`build/Tests-1793686209.xcresult`、`build/screenshots/` |
 | 核心与模拟器 UI | `check_ios.sh` 成功退出：30 项核心测试及全部八项 UI 测试通过，无失败或跳过。这确认了最终大字号布局修正前的改版基线。 | `build/redesign-validation.log`、`build/Tests-1793677716.xcresult`，以及由 `build/redesign-ui-attachments/manifest.json` 索引的七张截图附件 |
 | 修正后的最大字号布局 | 截图审阅发现入口文字截断及发送图标过大；修正后，最大字号测试与发送、停止及继续测试均通过，耗时 48.092 秒。新截图已完成视觉检查，确认入口标签完整、发送图标未超出范围。 | `build/redesign-accessibility-validation.log`、`build/RedesignAccessibility-1793678863.xcresult`、`build/redesign-accessibility-attachments/` |
 | 签名真机构建与启动 | 交付的 Debug 构建包含布局及登录错误修正，构建成功；`app.dsh.ios` 已在 iPhone 14 Pro / iOS 26.6.1 上安装并启动。前一版已修正布局的入口截图已完成视觉检查；最终登录错误修正不改变 UI。账号登录失败后保留现有会话的行为已通过源码审阅与编译，未使用真实服务测试。 | `build/delivery-device-build.log`、`build/dsh-iphone-final.png` |

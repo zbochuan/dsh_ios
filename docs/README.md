@@ -4,7 +4,7 @@ English | [中文](README.zh.md)
 
 ## Product and research
 
-The product is a redesigned iOS client for a computer running Harness with ds-harness-remote. The computer owns agent execution and project files. The SwiftUI application provides a conversation-focused local demonstration, plus Server login and discovery; Relay integration and Host interoperability remain pending. [Application architecture](architecture.md) owns current behavior and verification boundaries.
+The product is a redesigned iOS client for a computer running Harness with ds-harness-remote. The computer owns agent execution and project files. The SwiftUI application provides a task console shown locally with example tasks, plus Server login and discovery; Relay integration and Host interoperability remain pending. [Application architecture](architecture.md) owns current behavior and verification boundaries.
 
 - [Mobile product design](product-design.md) owns the current conversation-focused direction, official Claude/ChatGPT reference evidence, and interaction acceptance criteria.
 - [Remote client research](research/ds-harness-remote-ios.md) owns the proposed client responsibilities, protocol mapping, and compatibility evidence; its early interface proposals are historical context.

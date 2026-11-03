@@ -4,7 +4,7 @@
 
 为 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) 重新设计的独立 iOS 客户端，通过 [ds-harness-remote](https://github.com/liguobao/ds-harness-remote) 连接电脑。
 
-电脑负责运行 Agent、模型请求、项目文件与工具。Swift 6 / SwiftUI 界面面向 iOS 17 及以上的 iPhone 和 iPad，以对话、历史记录和一个输入框为中心，提供回复、任务动态与审批的本地演示。Remote Server 登录和电脑发现独立实现，远程对话仍未开放。
+电脑负责运行 Agent、模型请求、项目文件与工具。Swift 6 / SwiftUI 界面面向 iOS 17 及以上的 iPhone 和 iPad，以按电脑分组的任务列表为中心，提供任务详情、审批和输入框，并用示例任务在本地展示。Remote Server 登录和电脑发现独立实现，远程任务仍不可用。
 
 ## 项目状态
 

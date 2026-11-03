@@ -4,7 +4,7 @@
 
 ## 产品与研究
 
-产品是为运行 Harness 和 ds-harness-remote 的电脑重新设计的 iOS 客户端。Agent 执行与项目文件由电脑负责。SwiftUI 应用提供以对话为中心的本地演示，以及 Server 登录和设备发现；Relay 接入与 Host 互通仍待完成。[应用架构](architecture.zh.md)维护当前行为与验证边界。
+产品是为运行 Harness 和 ds-harness-remote 的电脑重新设计的 iOS 客户端。Agent 执行与项目文件由电脑负责。SwiftUI 应用提供用示例任务在本地展示的任务控制台，以及 Server 登录和设备发现；Relay 接入与 Host 互通仍待完成。[应用架构](architecture.zh.md)维护当前行为与验证边界。
 
 - [移动端产品设计](product-design.zh.md)维护当前以对话为中心的方向、Claude/ChatGPT 官方参考证据及交互验收要求。
 - [Remote 客户端调研](research/ds-harness-remote-ios.zh.md)维护客户端职责建议、协议映射与兼容性证据，早期界面建议作为历史背景保留。

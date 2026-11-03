@@ -4,24 +4,24 @@
 
 ## 当前实现
 
-DSH 是独立的 Swift 6 / SwiftUI 客户端，最低支持 iOS 17。紧凑布局使用对话导航栈，历史记录在弹层中打开；常规布局使用历史侧栏与对话详情。电脑与设置是次级入口。仓库中的 [Xcode 工程](../DSH.xcodeproj/project.pbxproj)构建应用及 UI 测试；本地 [DSHCore package](../Packages/DSHCore/Package.swift)负责可独立测试的状态与协议代码，不需要第三方 Swift package 依赖。
+DSH 是独立的 Swift 6 / SwiftUI 客户端，最低支持 iOS 17。紧凑布局使用任务列表导航栈和左侧抽屉；常规布局把抽屉作为分栏侧栏，与任务详情并列。电脑、设置和连接电脑在弹层中打开。仓库中的 [Xcode 工程](../DSH.xcodeproj/project.pbxproj)构建应用及 UI 测试；本地 [DSHCore package](../Packages/DSHCore/Package.swift)负责可独立测试的状态与协议代码，不需要第三方 Swift package 依赖。
 
 | 领域 | 已实现行为 | 验证边界 |
 |---|---|---|
-| 原生界面 | 简洁入口、可搜索历史、对话与输入框、可折叠思路与活动、会话内审批弹层、电脑与外观设置 | 回复与审批是本地演示。源码实现不代表已经通过原生视觉或无障碍验收。 |
+| 原生界面 | 按电脑分组并带等待队列的任务列表、可搜索抽屉、带可折叠动态及改动和终端卡片的任务详情、任务内审批弹层、配对入口与设置 | 任务、回复与审批是本地示例。源码实现不代表已经通过原生视觉或无障碍验收。 |
 | 会话状态 | 预设文本增量、停止、按会话保存草稿、本次运行内退出后继续、审批仅处理一次及退到后台时失效 | 仅为内存演示状态，尚无真实 Harness 会话状态处理或持久历史。 |
 | Remote Server | HTTPS 登录、iOS 设备注册、凭据刷新、Host 发现与身份描述接口 | 已有请求格式测试，未使用服务账号或真实 Host。 |
 | 凭据 | X25519 设备身份与设备 token 按标准化 Server 来源保存在不参与同步、仅限本机的钥匙串中 | 密码与注册 token 仅临时使用；钥匙串存储和连接恢复仍需真机验证。 |
 | 加密 | Noise IK 发起端与有序安全分片 | 黄金向量及本地响应端测试；不代表独立密码学审计或真实 Host 互通。 |
 | 远程会话 | 尚未接入界面 | Control/Relay 传输、Host 公钥信任、RPC、会话流及真实审批仍待实现。 |
 
-对话标题中保留一个可点击的“本地演示”标签，打开后说明预设回复、不执行操作以及内存存储边界。审批结果描述本地选择。电脑发现页说明发现设备不代表建立安全会话，且不提供可用的远程聊天操作。不收集模型 API key；只有用户填写 Server 并提交登录后，才会发送 Remote 账号信息。正式 REST 会话拒绝重定向，不使用 Cookie 或缓存，仅接受 HTTPS 来源地址。UserDefaults 保存已提交的 Server 地址、外观偏好及需要重新登录的恢复标记，密码与设备 token 不会写入其中。
+示例任务从首屏或配对页面打开；已完成的示例任务中说明一次：其内容是预设的，不会连接电脑。审批结果描述本地选择。电脑发现页说明发现设备不代表建立安全会话，且不提供可用的远程任务操作。不收集模型 API key；只有用户填写 Server 并提交登录后，才会发送 Remote 账号信息。正式 REST 会话拒绝重定向，不使用 Cookie 或缓存，仅接受 HTTPS 来源地址。UserDefaults 保存已提交的 Server 地址、外观、通知和新任务默认值偏好及需要重新登录的恢复标记，密码与设备 token 不会写入其中。
 
 ## 源码职责
 
-- [AppStore](../App/AppStore.swift)负责本地演示选择、草稿、任务取消及每个会话的生成任务。进入演示即打开空白对话，历史记录保留示例。新建对话时优先复用未编辑的空白对话。退出演示保留本次运行的历史与草稿。退出或进入后台会取消模拟生成并使演示审批失效，不会发送 Host 命令。
+- [AppStore](../App/AppStore.swift)负责载入示例任务、选择、抽屉与弹层状态、首页草稿、按任务保存的草稿以及模拟进度。新任务优先复用未编辑的空白任务；分叉、重命名、归档和删除只作用于本地任务。进入后台会取消模拟进度并使示例审批失效，不会发送 Host 命令。
 - [ConnectionStore](../App/ConnectionStore.swift)协调显式登录、钥匙串恢复、凭据刷新、设备发现与本地退出登录。表单编辑独立于已提交的 Server 地址。凭据操作串行执行；设备授权被拒绝时清除登录状态，设备发现的网络失败则保留已成功的认证。注册前账号登录失败会保留现有设备凭据及登录状态；这一行为已通过源码审阅，未使用真实账号验证。恢复流程可以恢复已提交 Server 的登录状态，但 `accountName` 仅在显式登录时设置，既不持久化也不重新加载，因此应用重新启动并恢复凭据后不会显示账号名称行。设备 token 与身份密钥仍保存在钥匙串中。token 替换结果不确定时要求重新登录。恢复操作包括重试恢复、本地退出登录，以及仅针对无法读取的身份、经确认后执行的移除。退出登录清除本地 token，不撤销 Server 上的设备。
-- [Conversation](../Packages/DSHCore/Sources/DSHCore/Conversation.swift)负责演示消息、生成阶段、草稿与待处理审批。审批详情展示示例电脑、完整工作区、命令与影响范围。关闭详情保留有效请求；处理时核对请求标识及等待阶段，仅消费一次并追加本地结果。审批失效时保留草稿并补充说明。
+- [Conversation](../Packages/DSHCore/Sources/DSHCore/Conversation.swift)负责任务的消息、动态、附件、阶段与结果、权限模式、模型、草稿与待处理审批；[TaskBoard](../Packages/DSHCore/Sources/DSHCore/TaskBoard.swift)推导等待队列、按电脑分组、项目分组与搜索。审批详情展示电脑、完整工作区、命令与 Agent 说明。关闭详情保留有效请求；处理时核对请求标识及等待阶段，仅消费一次并追加本地结果。审批失效时保留草稿并补充说明。
 - [RemoteServerAPI](../Packages/DSHCore/Sources/DSHCore/RemoteServerAPI.swift)实现固定版本的 Server 消息结构。[DeviceIdentity](../Packages/DSHCore/Sources/DSHCore/DeviceIdentity.swift)与 [CredentialStore](../Packages/DSHCore/Sources/DSHCore/CredentialStore.swift)隔离身份与持久化逻辑。
 - [NoiseIK](../Packages/DSHCore/Sources/DSHCore/NoiseIK.swift)与 [SecureChannel](../Packages/DSHCore/Sources/DSHCore/SecureChannel.swift)独立于网络 I/O 实现发起端与分帧。后续传输层必须串行执行完整的加密与发送操作，包括全部分片；仅靠 actor 隔离不能保证后续 socket 发送的顺序。
 

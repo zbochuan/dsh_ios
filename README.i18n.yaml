@@ -1,8 +1,8 @@
 # Reviewed bilingual contents; see docs/i18n/README.md.
 # Refresh only after reviewing both languages: --record <english-path>
 /dsh-ios:
-  en: ab4a2b558ddc0a6a
-  zh: d8f9400309bc00da
+  en: 5d8a339793fcb317
+  zh: ce1420eeae40c621
 /dsh-ios/project-state:
   en: e13b69e3ec5ac8d5
   zh: 2fc9955c2c3433e3
