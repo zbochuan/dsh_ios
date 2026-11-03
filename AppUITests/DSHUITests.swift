@@ -7,13 +7,13 @@ final class DSHUITests: XCTestCase {
 
     @MainActor
     func testDemoMessageAndStopAllowsContinuation() {
-        let app = launchApplication()
-        attachScreenshot(of: app, named: "Light - entry")
-        enterDemo(in: app)
+        let app = launchDemo()
+        attachScreenshot(of: app, named: "Light - example task")
+        openNewTask(in: app)
         let composer = element("chat.composer", in: app)
         let send = app.buttons["chat.send"]
         XCTAssertFalse(send.isEnabled)
-        attachScreenshot(of: app, named: "Light - new conversation")
+        attachScreenshot(of: app, named: "Light - new task")
 
         composer.tap()
         composer.typeText("   ")
@@ -24,6 +24,7 @@ final class DSHUITests: XCTestCase {
 
         let stop = app.buttons["chat.stop"]
         XCTAssertTrue(stop.waitForExistence(timeout: 5))
+        XCTAssertFalse(send.isEnabled, "A running task must not accept another message.")
         stop.tap()
         XCTAssertTrue(element("chat.interrupted", in: app).waitForExistence(timeout: 5))
         XCTAssertTrue(stop.waitForNonExistence(timeout: 5))
@@ -41,8 +42,34 @@ final class DSHUITests: XCTestCase {
     }
 
     @MainActor
-    func testDraftSurvivesHistoryNewConversationAndDemoExit() {
+    func testHomeComposerStartsTask() {
         let app = launchDemo()
+        goHome(in: app)
+        let composer = element("home.composer", in: app)
+        XCTAssertTrue(composer.waitForExistence(timeout: 5))
+        XCTAssertFalse(app.buttons["home.send"].exists, "Sending needs text first.")
+        XCTAssertEqual(app.buttons["home.chip.permission"].label, "权限模式：每次询问")
+        composer.tap()
+        composer.typeText("Summarize open issues")
+        app.buttons["home.send"].tap()
+
+        XCTAssertTrue(app.buttons["chat.stop"].waitForExistence(timeout: 5))
+        XCTAssertTrue(element("task.title", in: app).label.contains("Summarize open issues"))
+        XCTAssertTrue(app.staticTexts["你：Summarize open issues"].exists)
+        app.buttons["chat.stop"].tap()
+        XCTAssertTrue(element("chat.interrupted", in: app).waitForExistence(timeout: 5))
+
+        goHome(in: app)
+        XCTAssertTrue(composer.waitForExistence(timeout: 5))
+        XCTAssertFalse((composer.value as? String ?? "").contains("Summarize"), "Starting a task must clear the home draft.")
+        XCTAssertFalse(app.buttons["home.send"].exists)
+        XCTAssertTrue(app.buttons["task.row.Summarize open issues"].waitForExistence(timeout: 5))
+    }
+
+    @MainActor
+    func testDraftSurvivesNavigationAndNewTask() {
+        let app = launchDemo()
+        openNewTask(in: app)
         let composer = element("chat.composer", in: app)
         let example = app.buttons["chat.example"]
         XCTAssertTrue(example.waitForExistence(timeout: 5))
@@ -50,50 +77,47 @@ final class DSHUITests: XCTestCase {
         composer.typeText("Keep this draft")
         XCTAssertTrue(example.waitForNonExistence(timeout: 5), "The example must not offer to replace an existing draft.")
         XCTAssertEqual(composer.value as? String, "Keep this draft")
-        app.buttons["conversation.new"].tap()
+
+        app.buttons["task.more"].tap()
+        let newTask = app.buttons["conversation.new"]
+        XCTAssertTrue(newTask.waitForExistence(timeout: 5))
+        newTask.tap()
+        XCTAssertTrue(example.waitForExistence(timeout: 5))
         XCTAssertFalse((composer.value as? String ?? "").contains("Keep this draft"))
         XCTAssertFalse(app.buttons["chat.send"].isEnabled)
-        XCTAssertTrue(example.waitForExistence(timeout: 5))
 
-        openHistory(in: app)
-        let draftRow = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "Keep this draft")).firstMatch
+        goHome(in: app)
+        let draftRow = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "草稿：Keep this draft")).firstMatch
         XCTAssertTrue(draftRow.waitForExistence(timeout: 5))
         draftRow.tap()
         XCTAssertTrue(composer.waitForExistence(timeout: 5))
         XCTAssertEqual(composer.value as? String, "Keep this draft")
-
-        app.buttons["demo.info"].tap()
-        let leave = app.buttons["demo.leave"]
-        XCTAssertTrue(leave.waitForExistence(timeout: 5))
-        leave.tap()
-        let resume = app.buttons["demo.enter"]
-        XCTAssertTrue(resume.waitForExistence(timeout: 5))
-        XCTAssertFalse(composer.exists)
-        XCTAssertFalse(app.buttons["conversation.new"].exists)
-        resume.tap()
-        XCTAssertTrue(composer.waitForExistence(timeout: 5))
-        XCTAssertEqual(composer.value as? String, "Keep this draft")
+        XCTAssertTrue(app.buttons["chat.send"].isEnabled)
     }
 
     @MainActor
     func testDraftSurvivesCancelledLogin() {
         let app = launchDemo()
+        openNewTask(in: app)
         let composer = element("chat.composer", in: app)
         composer.tap()
         composer.typeText("Keep this while connecting")
 
-        app.buttons["demo.info"].tap()
-        let computers = app.buttons["查看电脑"]
-        XCTAssertTrue(computers.waitForExistence(timeout: 5))
-        computers.tap()
+        goHome(in: app)
+        openDrawer(in: app)
+        app.buttons["drawer.computers"].tap()
         openLogin(in: app)
         app.textFields["connection.server"].tap()
         app.textFields["connection.server"].typeText("https://remote.example.invalid")
         app.navigationBars["登录 Remote"].buttons["取消"].tap()
         XCTAssertTrue(app.navigationBars["登录 Remote"].waitForNonExistence(timeout: 5))
         app.navigationBars["电脑"].buttons["完成"].tap()
+        XCTAssertFalse(app.textFields["drawer.search"].exists, "Opening a panel from the drawer closes the drawer.")
 
-        XCTAssertTrue(app.buttons["demo.info"].waitForExistence(timeout: 5))
+        let draftRow = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "草稿：Keep this while connecting")).firstMatch
+        XCTAssertTrue(draftRow.waitForExistence(timeout: 5))
+        draftRow.tap()
+        XCTAssertTrue(composer.waitForExistence(timeout: 5))
         XCTAssertEqual(composer.value as? String, "Keep this while connecting")
         XCTAssertTrue(app.buttons["chat.send"].isEnabled)
     }
@@ -101,7 +125,7 @@ final class DSHUITests: XCTestCase {
     @MainActor
     func testApprovalClosePreservesRequestAndAllowConsumesIt() {
         let app = launchDemo(appearance: "dark")
-        openApprovalConversation(in: app)
+        openApprovalTask(in: app)
         let composer = element("chat.composer", in: app)
         composer.tap()
         composer.typeText("Draft after approval")
@@ -109,11 +133,12 @@ final class DSHUITests: XCTestCase {
         app.buttons["approval.composerReview"].tap()
 
         XCTAssertTrue(app.buttons["approval.close"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.staticTexts["示例 Mac"].exists)
-        XCTAssertTrue(app.staticTexts["~/Projects/app"].exists)
-        XCTAssertEqual(app.staticTexts["approval.command"].label, "swift test")
+        XCTAssertTrue(containsText("Mac mini", in: app))
+        XCTAssertTrue(containsText("~/code/harness-api", in: app))
+        XCTAssertEqual(element("approval.command", in: app).label, "命令：npm run test -- --watch=false")
         XCTAssertTrue(app.buttons["approval.allow"].isEnabled)
         XCTAssertTrue(app.buttons["approval.reject"].isEnabled)
+        XCTAssertTrue(app.buttons["approval.explain"].isEnabled)
         attachScreenshot(of: app, named: "Dark - pending approval")
 
         app.buttons["approval.close"].tap()
@@ -129,8 +154,11 @@ final class DSHUITests: XCTestCase {
         XCTAssertTrue(app.buttons["chat.send"].isEnabled)
         attachScreenshot(of: app, named: "Dark - approval result")
 
-        selectConversation("阅读一个 Swift 项目", in: app)
-        selectConversation("检查登录流程", in: app)
+        goHome(in: app)
+        XCTAssertFalse(app.buttons["home.pending.修复登录超时"].exists, "A resolved request must leave the waiting list.")
+        let row = app.buttons["task.row.修复登录超时"]
+        XCTAssertTrue(row.waitForExistence(timeout: 5))
+        row.tap()
         assertApprovalConsumed(in: app, outcome: "已记录「仅允许一次」。没有执行命令。")
         XCTAssertEqual(composer.value as? String, "Draft after approval")
     }
@@ -138,7 +166,7 @@ final class DSHUITests: XCTestCase {
     @MainActor
     func testRejectApprovalShowsLocalResult() {
         let app = launchDemo()
-        openApprovalConversation(in: app)
+        openApprovalTask(in: app)
         app.buttons["approval.composerReview"].tap()
         XCTAssertTrue(app.buttons["approval.reject"].waitForExistence(timeout: 5))
         app.buttons["approval.reject"].tap()
@@ -146,9 +174,41 @@ final class DSHUITests: XCTestCase {
     }
 
     @MainActor
+    func testRejectWithNoteSendsNoteOnce() {
+        let app = launchDemo()
+        openApprovalTask(in: app)
+        app.buttons["approval.composerReview"].tap()
+        XCTAssertTrue(app.buttons["approval.explain"].waitForExistence(timeout: 5))
+        app.buttons["approval.explain"].tap()
+        let note = element("approval.note", in: app)
+        XCTAssertTrue(note.waitForExistence(timeout: 5))
+        XCTAssertFalse(app.buttons["approval.sendNote"].isEnabled, "An empty note must not be sent.")
+        note.typeText("Run only the login tests")
+        XCTAssertTrue(app.buttons["approval.sendNote"].isEnabled)
+        app.buttons["approval.sendNote"].tap()
+        assertApprovalConsumed(in: app, outcome: "已记录「拒绝这次操作」，并附上说明：Run only the login tests。没有执行命令。")
+    }
+
+    @MainActor
+    func testHomePendingCardOpensApprovalSheet() {
+        let app = launchDemo()
+        goHome(in: app)
+        XCTAssertEqual(element("home.pendingHeader", in: app).label, "等你确认 · 1")
+        let card = app.buttons["home.pending.修复登录超时"]
+        XCTAssertTrue(card.waitForExistence(timeout: 5))
+        attachScreenshot(of: app, named: "Light - home")
+        card.tap()
+        XCTAssertTrue(app.buttons["approval.allow"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.navigationBars["需要你确认"].exists)
+        app.buttons["approval.close"].tap()
+        XCTAssertTrue(app.buttons["approval.composerReview"].waitForExistence(timeout: 5))
+        XCTAssertTrue(element("task.title", in: app).label.contains("修复登录超时"))
+    }
+
+    @MainActor
     func testBackgroundInvalidatesOpenApprovalAndPreservesDraft() {
         let app = launchDemo()
-        openApprovalConversation(in: app)
+        openApprovalTask(in: app)
         let composer = element("chat.composer", in: app)
         composer.tap()
         composer.typeText("Keep this after backgrounding")
@@ -160,8 +220,10 @@ final class DSHUITests: XCTestCase {
         app.activate()
 
         XCTAssertTrue(app.buttons["approval.close"].waitForExistence(timeout: 5))
+        XCTAssertTrue(element("approval.stale", in: app).waitForExistence(timeout: 5))
         XCTAssertFalse(app.buttons["approval.allow"].isEnabled)
         XCTAssertFalse(app.buttons["approval.reject"].isEnabled)
+        XCTAssertFalse(app.buttons["approval.explain"].isEnabled)
         app.buttons["approval.close"].tap()
         assertApprovalConsumed(in: app, outcome: "待确认操作已失效，没有记录授权。你可以继续发送消息。")
         XCTAssertEqual(composer.value as? String, "Keep this after backgrounding")
@@ -172,9 +234,14 @@ final class DSHUITests: XCTestCase {
     func testConnectionEntryDoesNotExposeRemoteComposer() {
         let app = launchApplication()
         XCTAssertFalse(element("chat.composer", in: app).exists)
-        XCTAssertFalse(app.buttons["conversation.new"].exists)
-        app.buttons["entry.computers"].tap()
-        openLogin(in: app)
+        XCTAssertFalse(element("home.composer", in: app).exists)
+        XCTAssertFalse(app.buttons["home.new"].exists)
+        app.buttons["home.connect"].tap()
+        XCTAssertTrue(app.navigationBars["连接电脑"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["pairing.copy"].exists)
+        XCTAssertTrue(app.buttons["pairing.example"].exists)
+        app.buttons["pairing.manual"].tap()
+        XCTAssertTrue(app.textFields["connection.server"].waitForExistence(timeout: 5))
         XCTAssertFalse(element("chat.composer", in: app).exists)
 
         let login = app.buttons["connection.login"]
@@ -190,29 +257,101 @@ final class DSHUITests: XCTestCase {
         // Cancel without submitting: these tests must never contact a Remote service.
         app.navigationBars["登录 Remote"].buttons["取消"].tap()
         XCTAssertTrue(app.navigationBars["登录 Remote"].waitForNonExistence(timeout: 5))
-        openLogin(in: app)
+        app.buttons["pairing.manual"].tap()
+        XCTAssertTrue(app.textFields["connection.server"].waitForExistence(timeout: 5))
         XCTAssertFalse(login.isEnabled)
         XCTAssertNotEqual(app.textFields["connection.server"].value as? String, "https://remote.example.invalid")
         XCTAssertNotEqual(app.textFields["connection.account"].value as? String, "ui-test@example.invalid")
+        app.navigationBars["登录 Remote"].buttons["取消"].tap()
+        app.buttons["pairing.cancel"].tap()
+        XCTAssertTrue(app.navigationBars["连接电脑"].waitForNonExistence(timeout: 5))
         XCTAssertFalse(element("chat.composer", in: app).exists)
+        XCTAssertFalse(element("home.composer", in: app).exists)
+    }
+
+    @MainActor
+    func testPairingOffersExampleTask() {
+        let app = launchApplication(appearance: "dark")
+        app.buttons["home.connect"].tap()
+        let example = app.buttons["pairing.example"]
+        XCTAssertTrue(example.waitForExistence(timeout: 5))
+        attachScreenshot(of: app, named: "Dark - pairing")
+        example.tap()
+        XCTAssertTrue(app.navigationBars["连接电脑"].waitForNonExistence(timeout: 5))
+        XCTAssertTrue(element("task.title", in: app).waitForExistence(timeout: 5))
+        XCTAssertTrue(element("task.title", in: app).label.contains("加暗色模式"))
+    }
+
+    @MainActor
+    func testPermissionMenuOffersNoBypass() {
+        let app = launchDemo()
+        openNewTask(in: app)
+        let permission = app.buttons["chat.permission"]
+        XCTAssertEqual(permission.label, "权限模式：每次询问")
+        permission.tap()
+        for mode in ["每次询问", "自动改文件", "计划模式"] {
+            XCTAssertTrue(app.buttons[mode].waitForExistence(timeout: 5), "Missing permission mode \(mode)")
+        }
+        let bypass = app.buttons.matching(NSPredicate(format: "label CONTAINS %@ OR label CONTAINS %@", "跳过", "绕过"))
+        XCTAssertEqual(bypass.count, 0, "The phone must not offer to skip approvals.")
+        app.buttons["计划模式"].tap()
+        XCTAssertTrue(app.buttons["chat.permission"].waitForExistence(timeout: 5))
+        XCTAssertEqual(app.buttons["chat.permission"].label, "权限模式：计划模式")
+    }
+
+    @MainActor
+    func testExampleTaskShowsChangesAndForks() {
+        let app = launchDemo()
+        XCTAssertTrue(element("task.title", in: app).label.contains("加暗色模式"))
+        let activity = app.buttons["message.activity"].firstMatch
+        XCTAssertTrue(activity.waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["diff.showAll"].firstMatch.exists || scrollTo(app.buttons["diff.showAll"].firstMatch, in: app))
+        attachScreenshot(of: app, named: "Light - task detail")
+
+        let fork = app.buttons["message.fork"].firstMatch
+        XCTAssertTrue(fork.waitForExistence(timeout: 5))
+        fork.tap()
+        let forkedTitle = app.descendants(matching: .any).matching(NSPredicate(format: "identifier == %@ AND label CONTAINS %@", "task.title", "加暗色模式 · 分叉")).firstMatch
+        XCTAssertTrue(forkedTitle.waitForExistence(timeout: 5))
+        XCTAssertTrue(element("chat.composer", in: app).exists)
+        XCTAssertTrue(app.buttons["chat.send"].exists)
+    }
+
+    @MainActor
+    func testDrawerSearchFindsTask() {
+        let app = launchDemo()
+        goHome(in: app)
+        openDrawer(in: app)
+        let search = app.textFields["drawer.search"]
+        search.tap()
+        search.typeText("周报")
+        let match = app.buttons["drawer.task.写周报脚本"]
+        XCTAssertTrue(match.waitForExistence(timeout: 5))
+        XCTAssertFalse(app.buttons["drawer.task.修复登录超时"].exists)
+        match.tap()
+        XCTAssertTrue(element("task.title", in: app).waitForExistence(timeout: 5))
+        XCTAssertTrue(element("task.title", in: app).label.contains("写周报脚本"))
+        XCTAssertTrue(element("task.title", in: app).label.contains("MacBook Pro · blog"))
     }
 
     @MainActor
     func testLargestAccessibilityTextKeepsPrimaryActionsReachable() {
         let app = launchApplication(contentSizeCategory: "UICTContentSizeCategoryAccessibilityXXXL")
-        XCTAssertEqual(app.staticTexts["entry.title"].label, "从一个对话开始")
-        XCTAssertEqual(app.buttons["demo.enter"].label, "试用本地对话")
-        XCTAssertEqual(app.buttons["entry.computers"].label, "登录并发现电脑")
-        XCTAssertTrue(app.buttons["demo.enter"].isHittable)
-        XCTAssertTrue(app.buttons["entry.computers"].isHittable)
+        XCTAssertEqual(element("home.title", in: app).label, "在手机上看着电脑里的 Agent 干活")
+        XCTAssertTrue(app.buttons["home.connect"].isHittable)
         attachScreenshot(of: app, named: "Accessibility XXXL - entry")
+        XCTAssertTrue(scrollTo(app.buttons["home.example"], in: app), "The example task must be reachable by scrolling.")
+        XCTAssertTrue(app.buttons["home.example"].isHittable)
         enterDemo(in: app)
-        XCTAssertTrue(element("chat.composer", in: app).isHittable)
-        XCTAssertTrue(app.buttons["conversation.new"].isHittable)
-        attachScreenshot(of: app, named: "Accessibility XXXL - new conversation")
+        goHome(in: app)
+        XCTAssertTrue(element("home.composer", in: app).isHittable)
+        XCTAssertTrue(app.buttons["home.new"].isHittable)
+        XCTAssertTrue(app.buttons["home.menu"].isHittable)
+        attachScreenshot(of: app, named: "Accessibility XXXL - home")
 
-        openApprovalConversation(in: app)
+        openApprovalTask(in: app)
         XCTAssertTrue(app.buttons["approval.composerReview"].isHittable)
+        XCTAssertTrue(element("chat.composer", in: app).isHittable)
         app.buttons["approval.composerReview"].tap()
         XCTAssertTrue(app.buttons["approval.allow"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.buttons["approval.allow"].isHittable)
@@ -230,6 +369,8 @@ final class DSHUITests: XCTestCase {
             "-remote.server", "",
             "-remote.loginRequired", "NO",
             "-appearance", appearance,
+            "-defaults.permissionMode", "ask",
+            "-defaults.model", "跟随电脑",
             "-AppleLanguages", "(zh-Hans)",
             "-AppleLocale", "zh_CN",
         ]
@@ -237,7 +378,7 @@ final class DSHUITests: XCTestCase {
             app.launchArguments += ["-UIPreferredContentSizeCategoryName", contentSizeCategory]
         }
         app.launch()
-        XCTAssertTrue(app.buttons["demo.enter"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["home.example"].waitForExistence(timeout: 5))
         return app
     }
 
@@ -248,43 +389,49 @@ final class DSHUITests: XCTestCase {
         return app
     }
 
+    /// Opens the example task, which also loads the other example tasks.
     @MainActor
     private func enterDemo(in app: XCUIApplication) {
-        app.buttons["demo.enter"].tap()
-        XCTAssertTrue(app.buttons["demo.info"].waitForExistence(timeout: 5))
+        app.buttons["home.example"].tap()
+        XCTAssertTrue(element("task.title", in: app).waitForExistence(timeout: 5))
         XCTAssertTrue(element("chat.composer", in: app).waitForExistence(timeout: 5))
     }
 
     @MainActor
-    private func openHistory(in app: XCUIApplication) {
-        let history = app.buttons["conversation.history"]
-        if history.exists { history.tap() }
-        XCTAssertTrue(app.navigationBars["历史记录"].waitForExistence(timeout: 5))
+    private func goHome(in app: XCUIApplication) {
+        if app.buttons["home.new"].exists && app.buttons["home.new"].isHittable { return }
+        let back = app.navigationBars.buttons["任务"].firstMatch
+        XCTAssertTrue(back.waitForExistence(timeout: 5))
+        back.tap()
+        XCTAssertTrue(app.buttons["home.new"].waitForExistence(timeout: 5))
     }
 
     @MainActor
-    private func selectConversation(_ title: String, in app: XCUIApplication) {
-        openHistory(in: app)
-        let row = app.buttons["history.conversation.\(title)"]
-        for _ in 0..<4 {
-            if row.exists && row.isHittable { break }
-            app.swipeUp()
-        }
+    private func openNewTask(in app: XCUIApplication) {
+        goHome(in: app)
+        app.buttons["home.new"].tap()
+        XCTAssertTrue(element("chat.composer", in: app).waitForExistence(timeout: 5))
+        XCTAssertTrue(element("task.title", in: app).label.contains("新任务"))
+    }
+
+    @MainActor
+    private func openDrawer(in app: XCUIApplication) {
+        app.buttons["home.menu"].tap()
+        XCTAssertTrue(app.textFields["drawer.search"].waitForExistence(timeout: 5))
+    }
+
+    /// Opens the waiting task through the drawer, as a user switching tasks would.
+    @MainActor
+    private func openApprovalTask(in app: XCUIApplication) {
+        goHome(in: app)
+        openDrawer(in: app)
+        let row = app.buttons["drawer.task.修复登录超时"]
         XCTAssertTrue(row.waitForExistence(timeout: 5))
-        XCTAssertTrue(row.isHittable)
+        XCTAssertEqual(row.label, "修复登录超时，等你确认")
         row.tap()
-        if app.buttons["conversation.history"].exists {
-            XCTAssertTrue(app.navigationBars["历史记录"].waitForNonExistence(timeout: 5))
-        }
-        XCTAssertTrue(app.buttons["demo.info"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.buttons["demo.info"].label.contains(title))
-    }
-
-    @MainActor
-    private func openApprovalConversation(in app: XCUIApplication) {
-        selectConversation("检查登录流程", in: app)
         // This safe-area action stays reachable even when the transcript card is offscreen.
         XCTAssertTrue(app.buttons["approval.composerReview"].waitForExistence(timeout: 5))
+        XCTAssertTrue(element("task.title", in: app).label.contains("修复登录超时"))
     }
 
     @MainActor
@@ -305,6 +452,20 @@ final class DSHUITests: XCTestCase {
         let result = app.staticTexts.matching(NSPredicate(format: "label == %@", "助手：\(outcome)"))
         XCTAssertTrue(result.firstMatch.waitForExistence(timeout: 5), file: file, line: line)
         XCTAssertEqual(result.count, 1, "A request should produce only one local result.", file: file, line: line)
+    }
+
+    @MainActor
+    private func containsText(_ text: String, in app: XCUIApplication) -> Bool {
+        app.descendants(matching: .any).matching(NSPredicate(format: "label CONTAINS %@", text)).firstMatch.exists
+    }
+
+    @MainActor
+    private func scrollTo(_ target: XCUIElement, in app: XCUIApplication) -> Bool {
+        for _ in 0..<6 {
+            if target.exists && target.isHittable { return true }
+            app.swipeUp()
+        }
+        return target.exists
     }
 
     @MainActor
