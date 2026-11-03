@@ -1,0 +1,17 @@
+# Reviewed bilingual contents; see docs/i18n/README.md.
+# Refresh only after reviewing both languages: --record <english-path>
+/upstream-documentation-and-cicd-conventions:
+  en: b88b39f78cdf85c9
+  zh: a7daf3f936547045
+/upstream-documentation-and-cicd-conventions/documentation-ownership:
+  en: 3922b730ec8c3c85
+  zh: 71a5b3b38e890ffe
+/upstream-documentation-and-cicd-conventions/english-and-chinese-pairing:
+  en: 961702923f25953b
+  zh: 5659b0520f24e437
+/upstream-documentation-and-cicd-conventions/ci-validation:
+  en: 99bdc685afeaa82f
+  zh: 12a6bd4c5db1e72d
+/upstream-documentation-and-cicd-conventions/build-and-publication:
+  en: f884d38ed5bc5a92
+  zh: fb7f947c4f531eab

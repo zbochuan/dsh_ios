@@ -1,0 +1,14 @@
+# Reviewed bilingual contents; see docs/i18n/README.md.
+# Refresh only after reviewing both languages: --record <english-path>
+/documentation:
+  en: e01487583eedcd72
+  zh: c6b240040fcf3150
+/documentation/product-and-research:
+  en: ab1d35c6f04cce96
+  zh: 433970dfbc56910c
+/documentation/engineering-references:
+  en: 1f0b07f97b5ce698
+  zh: 3f953c43646d53b0
+/documentation/placement:
+  en: 356e79e634714e37
+  zh: 36d9eec4e70142e8

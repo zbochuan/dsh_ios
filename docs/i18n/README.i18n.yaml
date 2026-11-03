@@ -1,0 +1,14 @@
+# Reviewed bilingual contents; see docs/i18n/README.md.
+# Refresh only after reviewing both languages: --record <english-path>
+/bilingual-documentation:
+  en: f1a33060be696847
+  zh: 90124807d793521d
+/bilingual-documentation/pairing-contract:
+  en: 35afb4321fff30c6
+  zh: 179cff134d427f15
+/bilingual-documentation/edit-and-verify:
+  en: 712bc66e455a125b
+  zh: aa77e7b33f85906d
+/bilingual-documentation/review-responsibility:
+  en: 6777f72824e695a2
+  zh: 4685901985e8dc63

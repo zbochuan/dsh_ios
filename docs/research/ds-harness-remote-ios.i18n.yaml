@@ -1,0 +1,47 @@
+# Reviewed bilingual contents; see docs/i18n/README.md.
+# Refresh only after reviewing both languages: --record <english-path>
+/a-native-ios-client-through-ds-harness-remote:
+  en: 6a8edee16092962b
+  zh: db3daf8b5f1f830d
+/a-native-ios-client-through-ds-harness-remote/product-direction:
+  en: 547d5ed0dbc6938f
+  zh: 0c024a93de91ceda
+/a-native-ios-client-through-ds-harness-remote/1-what-it-provides:
+  en: 07b04df9e2b390cd
+  zh: 95bf573bed2433ab
+/a-native-ios-client-through-ds-harness-remote/2-plugin-installation-and-server-deployment:
+  en: 2dee42af8fac2353
+  zh: 3211607e90418147
+/a-native-ios-client-through-ds-harness-remote/3-existing-mobile-client-and-ios-status:
+  en: 41cc0f999249323a
+  zh: 5e751d2d6c055db0
+/a-native-ios-client-through-ds-harness-remote/4-swift-integration-modules:
+  en: 593788ca95d769bc
+  zh: 71cc195262724d7e
+/a-native-ios-client-through-ds-harness-remote/4-swift-integration-modules/encryption-and-interoperability:
+  en: 3df43d60b9bc1ba5
+  zh: a603a7ec582087bc
+/a-native-ios-client-through-ds-harness-remote/4-swift-integration-modules/relay-first-then-webrtc:
+  en: 6136833a82aff2b4
+  zh: 361515cb8d0b541f
+/a-native-ios-client-through-ds-harness-remote/4-swift-integration-modules/harness-calls-streams-and-approvals:
+  en: cb23735df444223b
+  zh: 833681e2a99382a8
+/a-native-ios-client-through-ds-harness-remote/5-initial-ios-interface-direction:
+  en: 6ca0c20c405747ac
+  zh: 245ea5634485d25c
+/a-native-ios-client-through-ds-harness-remote/5-initial-ios-interface-direction/navigation-and-screens:
+  en: 90737946e19f0688
+  zh: bfe0f3cdd3a9e760
+/a-native-ios-client-through-ds-harness-remote/5-initial-ios-interface-direction/chat-and-tool-activity:
+  en: 89e5b3c21c31687c
+  zh: c969103a45227853
+/a-native-ios-client-through-ds-harness-remote/5-initial-ios-interface-direction/approvals-and-recovery:
+  en: ee3a5b86d947e758
+  zh: 3ab9afcc2a63ea60
+/a-native-ios-client-through-ds-harness-remote/6-first-version-scope-and-verification-order:
+  en: b531d204009ea4e1
+  zh: 162ba4c7844664ab
+/a-native-ios-client-through-ds-harness-remote/7-research-boundaries:
+  en: 53fd3dd098c9b66d
+  zh: 2ff8bc7161d8741f

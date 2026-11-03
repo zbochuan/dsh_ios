@@ -1,0 +1,17 @@
+# Reviewed bilingual contents; see docs/i18n/README.md.
+# Refresh only after reviewing both languages: --record <english-path>
+/development-and-cicd:
+  en: a4b6f56c8d133528
+  zh: d28c895e5a9a3a7d
+/development-and-cicd/local-documentation-checks:
+  en: d197ae2a70e5f61b
+  zh: 9cdc0dac2b11d1f7
+/development-and-cicd/active-ci:
+  en: f204a3123900ae2f
+  zh: 3367ce185f2ff9aa
+/development-and-cicd/ios-ci-integration-plan:
+  en: 0ce4d5870003aeb7
+  zh: b5ab6e9b44656300
+/development-and-cicd/release-requirements:
+  en: e4eefc91ceb5c233
+  zh: d0367733ce78082f

@@ -1,0 +1,50 @@
+# Reviewed bilingual contents; see docs/i18n/README.md.
+# Refresh only after reviewing both languages: --record <english-path>
+/deepseek-harness-web-desktop-implementation-research:
+  en: 21c6bd18ba05a9be
+  zh: 4877d3c9b110ba6c
+/deepseek-harness-web-desktop-implementation-research/conclusions:
+  en: 1d0b8385d29225a4
+  zh: 4053a52c5a555d6f
+/deepseek-harness-web-desktop-implementation-research/1-shared-runtime-the-cordis-plugin-tree:
+  en: 51f0713ba082e7b4
+  zh: d887ad37aed1bd68
+/deepseek-harness-web-desktop-implementation-research/2-sessions-and-model-communication:
+  en: a7ddad662b50098a
+  zh: 70bab33561617bfb
+/deepseek-harness-web-desktop-implementation-research/21-web-client-protocol-and-state-synchronization:
+  en: ba3992e5bbca9976
+  zh: 2557458f09aadc44
+/deepseek-harness-web-desktop-implementation-research/21-web-client-protocol-and-state-synchronization/external-clients-already-have-a-connection-entry-point:
+  en: 120608cbc46b1574
+  zh: 07b2e3e5202e6528
+/deepseek-harness-web-desktop-implementation-research/21-web-client-protocol-and-state-synchronization/operations-use-http-live-data-uses-websocket:
+  en: dc5377cf0ba4b697
+  zh: 97f68e74eb7e879a
+/deepseek-harness-web-desktop-implementation-research/21-web-client-protocol-and-state-synchronization/reconnection-and-streaming-display-challenges:
+  en: 76f71a3cbe41d6dd
+  zh: dcfae77263a036e8
+/deepseek-harness-web-desktop-implementation-research/21-web-client-protocol-and-state-synchronization/files-and-mobile-ui:
+  en: 066494f09f8e9725
+  zh: 9ac0b715abf46f4b
+/deepseek-harness-web-desktop-implementation-research/3-how-the-desktop-app-works:
+  en: 0ccc8443fb0ab7c6
+  zh: c7530e45787644ab
+/deepseek-harness-web-desktop-implementation-research/3-how-the-desktop-app-works/startup-and-code-reuse:
+  en: 0c98c49eda4ea68d
+  zh: 2ffb67684d2d35a3
+/deepseek-harness-web-desktop-implementation-research/3-how-the-desktop-app-works/lifecycle-implications-for-ios:
+  en: 449dbabe3234871c
+  zh: 3d59175bad070b83
+/deepseek-harness-web-desktop-implementation-research/4-experimental-local-execution-in-the-browser:
+  en: 5941b9f73c7d2dfb
+  zh: 1c417fd2397bd0bb
+/deepseek-harness-web-desktop-implementation-research/5-recommended-ios-approaches:
+  en: 6ed969a916f87839
+  zh: 7f07ac9eb2354fa8
+/deepseek-harness-web-desktop-implementation-research/6-apple-platform-constraints:
+  en: fed2e20a8defd235
+  zh: 358026397881dced
+/deepseek-harness-web-desktop-implementation-research/7-open-source-and-product-naming:
+  en: 370622c5e4cad704
+  zh: fef81d56c59f365a

@@ -1,0 +1,14 @@
+# Reviewed bilingual contents; see docs/i18n/README.md.
+# Refresh only after reviewing both languages: --record <english-path>
+/contributing:
+  en: fd7bf1fbf96f4ef3
+  zh: f9646f22ffe69c98
+/contributing/documentation-changes:
+  en: e0bf86c508898d8e
+  zh: 7af1e3e24166a9b0
+/contributing/application-changes:
+  en: b074bc462f7f22ed
+  zh: e4e18f8a2f8eb1ac
+/contributing/review-and-publication:
+  en: 160f79c4b7fb804c
+  zh: 884eab2dde95c5fe
