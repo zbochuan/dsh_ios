@@ -1,0 +1,38 @@
+name: iOS
+
+on:
+  pull_request:
+    paths: ['App/**', 'AppUITests/**', 'Packages/**', 'DSH.xcodeproj/**', 'scripts/check_ios.sh', 'scripts/generate_xcode_project.py', '.github/workflows/ios.yml']
+  push:
+    branches: [main]
+    paths: ['App/**', 'AppUITests/**', 'Packages/**', 'DSH.xcodeproj/**', 'scripts/check_ios.sh', 'scripts/generate_xcode_project.py', '.github/workflows/ios.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  simulator:
+    runs-on: macos-15
+    timeout-minutes: 30
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.2.app/Contents/Developer
+      DSH_SIMULATOR_DESTINATION: platform=iOS Simulator,name=iPhone 17 Pro,OS=26.2
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Test core and iOS interface
+        run: bash scripts/check_ios.sh
+      - name: Retain simulator diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-test-results
+          path: build/*.xcresult
+          if-no-files-found: ignore
+          retention-days: 7
