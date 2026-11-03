@@ -1,0 +1,20 @@
+# Reviewed bilingual contents; see docs/i18n/README.md.
+# Refresh only after reviewing both languages: --record <english-path>
+/mobile-product-design:
+  en: f4727974a7f4136b
+  zh: b7eb00e6250f49db
+/mobile-product-design/direction-and-evidence:
+  en: ff7904e4f993161a
+  zh: 031ecf269334be3f
+/mobile-product-design/navigation-and-conversation:
+  en: b8d8a6f04fe585fb
+  zh: dab489185cb3bbcf
+/mobile-product-design/mode-and-connection-boundaries:
+  en: 3efd547c346a5f7a
+  zh: 6d903c24c53fac74
+/mobile-product-design/approval-in-context:
+  en: e448a8f36ffe5f29
+  zh: 89b1097028e6f61f
+/mobile-product-design/native-presentation-and-acceptance:
+  en: e78245bde0110250
+  zh: 4827b6da79ed1d1c

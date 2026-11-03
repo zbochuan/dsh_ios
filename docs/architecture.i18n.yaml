@@ -1,0 +1,17 @@
+# Reviewed bilingual contents; see docs/i18n/README.md.
+# Refresh only after reviewing both languages: --record <english-path>
+/application-architecture:
+  en: 951713661ce183c7
+  zh: 9c64ffd1804f2ad8
+/application-architecture/current-implementation:
+  en: b5c2b103e9b97269
+  zh: f14379feb9b4bbac
+/application-architecture/source-ownership:
+  en: 052dc13dcdf76040
+  zh: 55047cb9aad90bec
+/application-architecture/interface-and-design:
+  en: df0c52c9d5b3eda4
+  zh: a910d3a236115b4a
+/application-architecture/next-integration-boundary:
+  en: c61c6d0ed29126ba
+  zh: 91af64b5d5712c92

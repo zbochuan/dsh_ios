@@ -4,14 +4,17 @@
   en: a4b6f56c8d133528
   zh: d28c895e5a9a3a7d
 /development-and-cicd/local-documentation-checks:
-  en: d197ae2a70e5f61b
-  zh: 9cdc0dac2b11d1f7
+  en: 4abcd5686340d60a
+  zh: 087728cfd1f96c61
+/development-and-cicd/application-development:
+  en: 295f645d5e541b5c
+  zh: d85a724c7e88f9a0
 /development-and-cicd/active-ci:
-  en: f204a3123900ae2f
-  zh: 3367ce185f2ff9aa
-/development-and-cicd/ios-ci-integration-plan:
-  en: 0ce4d5870003aeb7
-  zh: b5ab6e9b44656300
-/development-and-cicd/release-requirements:
-  en: e4eefc91ceb5c233
-  zh: d0367733ce78082f
+  en: a99e28344ec618f5
+  zh: d528346438cf8709
+/development-and-cicd/verification-record:
+  en: bbc13d95aa7b2541
+  zh: fded83154c43b8e7
+/development-and-cicd/release-rehearsal-and-publication:
+  en: 14c8ecf21191f4b5
+  zh: 75c2b78d155e889e
