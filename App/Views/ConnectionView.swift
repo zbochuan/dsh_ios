@@ -56,7 +56,7 @@ struct ConnectionView: View {
                     .disabled(connection.isBusy || !validServer || email.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || password.isEmpty)
                     .accessibilityIdentifier("connection.login")
                 } footer: {
-                    Text("登录后可查看电脑状态；远程对话暂未开放。你的本地对话与草稿会保留。")
+                    Text("登录后可查看电脑是否在线。示例任务和草稿会保留。")
                 }
             }
             .scrollContentBackground(.hidden)

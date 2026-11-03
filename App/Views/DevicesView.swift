@@ -12,7 +12,7 @@ struct DevicesView: View {
                     LabeledContent("服务", value: connection.committedServerAddress)
                         .font(.subheadline)
                 } footer: {
-                    Text("当前可查看电脑状态，远程对话暂未开放。")
+                    Text("在线状态来自 Remote 服务。")
                 }
                 Section("我的电脑") {
                     if connection.isBusy {
@@ -55,7 +55,7 @@ struct DevicesView: View {
                 Section {
                     VStack(alignment: .leading, spacing: 12) {
                         Text("登录后查看你的电脑").font(.body.weight(.semibold))
-                        Text("使用电脑上的 Remote 服务和账号。当前可发现设备，远程对话暂未开放。")
+                        Text("使用电脑上的 Remote 服务和账号登录，查看电脑是否在线。")
                             .font(.subheadline).foregroundStyle(.secondary)
                         Button("登录并发现电脑") { showingLogin = true }
                             .frame(minHeight: 44)
@@ -106,9 +106,8 @@ private struct DeviceDetailView: View {
                 if let version = device.harnessVersion { LabeledContent("Harness", value: version) }
                 if let version = device.clientVersion { LabeledContent("Remote", value: version) }
             }
-            Section("对话") {
-                Text("远程对话暂未开放")
-                Text("在线状态来自 Remote 服务；尚未核验这台电脑的身份，也未建立加密会话。")
+            Section("任务") {
+                Text("在线状态来自 Remote 服务；尚未核验这台电脑的身份，也未建立加密会话，所以这里还不会显示它的任务。")
                     .font(.subheadline).foregroundStyle(.secondary)
             }
         }
