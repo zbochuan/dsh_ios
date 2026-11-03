@@ -2,7 +2,7 @@ import Testing
 @testable import DSHCore
 
 @Test func streamingCompletesWithoutDuplicatingMessage() {
-    var conversation = Conversation(title: "Test", workspace: "demo")
+    var conversation = Conversation(title: "Test", computer: "Mac", project: "demo")
     conversation.beginDemoReply(to: "hello")
     conversation.appendDemoText("Hello")
     conversation.appendDemoText(" world")
@@ -54,7 +54,7 @@ import Testing
 @Test func approvalMustMatchCurrentRequestAndPhase() {
     var conversation = DemoContent.conversations()[1]
     let current = conversation.approval!.id
-    let unrelated = ToolApproval(command: "other", workspace: "/other", explanation: "Other request")
+    let unrelated = ToolApproval(command: "other", workspace: "/other", explanation: "Other request", computer: "Mac")
     let acceptedUnrelated = conversation.resolveApproval(id: unrelated.id, allow: true)
     #expect(!acceptedUnrelated)
     #expect(conversation.approval?.id == current)
@@ -67,12 +67,31 @@ import Testing
 @Test func allowingDemoApprovalRecordsChoiceWithoutClaimingExecution() {
     var conversation = DemoContent.conversations()[1]
     let approval = conversation.approval!
-    #expect(approval.computer == "示例 Mac")
-    #expect(approval.workspace == "~/Projects/app")
-    #expect(approval.scope.contains("读写"))
+    #expect(conversation.status == .needsYou)
+    #expect(approval.computer == "Mac mini")
+    #expect(approval.workspace == "~/code/harness-api")
+    #expect(approval.command == "npm run test -- --watch=false")
     let accepted = conversation.resolveApproval(id: approval.id, allow: true)
     #expect(accepted)
     #expect(conversation.approval == nil)
+    #expect(conversation.status == .done)
     #expect(conversation.activity.last?.title == "本地记录：允许一次")
+    #expect(conversation.messages.last?.text == "已记录「仅允许一次」。没有执行命令。")
+}
+
+@Test func rejectingWithNoteKeepsNoteAndConsumesOnce() {
+    var conversation = DemoContent.conversations()[1]
+    let id = conversation.approval!.id
+    let first = conversation.resolveApproval(id: id, allow: false, note: "  先别跑全部测试  ")
+    let second = conversation.resolveApproval(id: id, allow: false, note: "again")
+    #expect(first)
+    #expect(!second)
+    #expect(conversation.messages.last?.text == "已记录「拒绝这次操作」，并附上说明：先别跑全部测试。没有执行命令。")
+    #expect(conversation.activity.count == 1)
+}
+
+@Test func allowingIgnoresNote() {
+    var conversation = DemoContent.conversations()[1]
+    conversation.resolveApproval(id: conversation.approval!.id, allow: true, note: "ignored")
     #expect(conversation.messages.last?.text == "已记录「仅允许一次」。没有执行命令。")
 }
