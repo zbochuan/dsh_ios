@@ -1,17 +1,17 @@
 # Reviewed bilingual contents; see docs/i18n/README.md.
 # Refresh only after reviewing both languages: --record <english-path>
 /dsh-ios:
-  en: 600ed63a41857419
-  zh: 5275e286141bb036
+  en: 5d8a339793fcb317
+  zh: ce1420eeae40c621
 /dsh-ios/project-state:
-  en: beaa5f55af26e81d
-  zh: 5db8167a77de0eb8
+  en: e13b69e3ec5ac8d5
+  zh: 2fc9955c2c3433e3
 /dsh-ios/documentation:
-  en: bbf0ef71aa1d5018
-  zh: 12249c787d8638c9
+  en: f506b1a702b51394
+  zh: 49790440a7de6c85
 /dsh-ios/contributing:
   en: 9e86fbbd554a07eb
   zh: f1ad9c739b648e8d
 /dsh-ios/upstream-projects:
-  en: d750825da1d9f761
-  zh: a219670c2bdf2c3d
+  en: 3deefa303bf5eef9
+  zh: 9dc585eea690cd05

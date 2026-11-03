@@ -1,0 +1,43 @@
+name: Release rehearsal
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  unsigned-archive:
+    runs-on: macos-15
+    timeout-minutes: 30
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.2.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify version and selected revision
+        run: python3 -I scripts/check_release.py
+      - name: Validate documentation and core
+        run: |
+          python3 -I scripts/check_docs.py
+          python3 -I scripts/generate_xcode_project.py --check
+          swift test --package-path Packages/DSHCore
+      - name: Rehearse unsigned device archive
+        run: |
+          xcodebuild -project DSH.xcodeproj -scheme DSH -configuration Release -destination 'generic/platform=iOS' -archivePath build/DSH.xcarchive -resultBundlePath build/Archive.xcresult CODE_SIGNING_ALLOWED=NO archive
+          ditto -c -k --keepParent build/DSH.xcarchive build/DSH-unsigned.zip
+          shasum -a 256 build/DSH-unsigned.zip > build/SHA256SUMS
+          git rev-parse HEAD > build/SOURCE_REVISION
+      - name: Retain archive and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unsigned-release-rehearsal
+          path: |
+            build/DSH-unsigned.zip
+            build/SHA256SUMS
+            build/SOURCE_REVISION
+            build/*.xcresult
+          if-no-files-found: ignore
+          retention-days: 14

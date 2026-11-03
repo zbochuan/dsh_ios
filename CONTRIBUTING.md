@@ -26,7 +26,9 @@ The check validates completeness, structure, synchronization records, local link
 
 ## Application changes
 
-No application build command exists yet. Add the owning documentation and executable checks with the iOS project; follow the [CI/CD integration sequence](docs/development.md). Keep connection state and protocol handling independent from SwiftUI views, and verify protocol changes against upstream fixtures and a documented Host version.
+Run the commands in [development and CI/CD](docs/development.md) for the checked-in Xcode application and Swift package. [Application architecture](docs/architecture.md) owns implementation boundaries. Keep connection state and protocol handling independent from SwiftUI views, and verify protocol changes against upstream fixtures and a documented Host version.
+
+Use [mobile product design](docs/product-design.md) for interface decisions and official reference evidence. Preserve per-conversation drafts, contextual approvals and the compact local-demo boundary. Add controls only for supported actions. Describe native source changes, simulator checks, device runtime and visual/accessibility review separately; screenshots and passing compilation alone cannot establish interaction quality.
 
 ## Review and publication
 

@@ -26,7 +26,9 @@ python3 -I scripts/check_docs.py
 
 ## 应用变更
 
-目前尚无应用构建命令。建立 iOS 工程时，同时加入归属文档与可执行检查，并遵循 [CI/CD 接入顺序](docs/development.zh.md)。连接状态和协议处理应独立于 SwiftUI 视图，协议变更需通过上游测试向量及注明版本的 Host 验证。
+按照[开发与 CI/CD](docs/development.zh.md)中的命令检查仓库内的 Xcode 应用与 Swift package。[应用架构](docs/architecture.zh.md)维护实现边界。连接状态和协议处理应独立于 SwiftUI 视图，协议变更需通过上游测试向量及注明版本的 Host 验证。
+
+界面决策与官方参考证据归[移动端产品设计](docs/product-design.zh.md)。保留按会话存放的草稿、会话内审批以及简短的本地演示说明，仅为已支持的操作增加控件。分别说明原生源码变更、模拟器检查、真机运行与视觉及无障碍审阅；截图和编译通过本身不能证明交互质量。
 
 ## 审阅与发布
 

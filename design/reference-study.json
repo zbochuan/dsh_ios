@@ -1,0 +1,248 @@
+{
+  "schemaVersion": 1,
+  "studyDate": "2026-11-03",
+  "status": "Official screenshot observation and proposed DSH adaptation; not runtime verification",
+  "purpose": {
+    "en": "Replace the rejected promotional landing-page direction with a quiet, usable native conversation client, learning from visible Claude and ChatGPT interface structure.",
+    "zh": "依据 Claude 和 ChatGPT 可见的界面结构，将被否定的宣传落地页方向改为安静、可用的原生对话客户端。"
+  },
+  "method": {
+    "retrieval": "Public Apple iTunes lookup API, US storefront; downloaded screenshot URLs from seller metadata through Apple's mzstatic CDN. Requested the same image resource with a 1320x2868bb.png rendition suffix for readability. No accounts or application login used.",
+    "viewing": "Actually opened all 17 iPhone promotional screenshots plus the first iPad screenshot of each app with the image-capable Read tool. Evidence below identifies the most relevant images; each download has its own newly created directory under build/references.",
+    "scope": "Observe only the interface visible inside each promotional composition. Outside-device headlines, photographs, gradients, enlarged callouts and device frames are advertising, not application screen layout.",
+    "limits": [
+      "The lookup's current version is the listing version at retrieval; Apple does not tie each screenshot to that exact binary or disclose its capture date.",
+      "Static seller-supplied images can be staged, enlarged or cropped. They do not verify gestures, navigation destinations, animation, latency, accessibility, precise point sizes or functional correctness.",
+      "No fully opened history drawer appears in the reviewed images. Claude's code-review task list is not evidence of its general conversation-history layout.",
+      "The Claude empty-state evidence is an angled promotional photograph with part of the phone obscured. No ChatGPT empty state appears in the reviewed set.",
+      "Images predominantly show light appearance. No general dark-mode behavior was established.",
+      "No DSH build, simulator run, device run or user study was performed by this reference researcher. Proposed changes below are not implementation claims."
+    ]
+  },
+  "sources": [
+    {
+      "id": "claude",
+      "appStoreId": 6473753684,
+      "name": "Claude by Anthropic",
+      "seller": "Anthropic PBC",
+      "storefront": "us",
+      "listingURL": "https://apps.apple.com/us/app/claude-by-anthropic/id6473753684",
+      "lookupURL": "https://itunes.apple.com/lookup?id=6473753684&country=us&entity=software",
+      "retrievedAtUTC": "2026-11-03T02:34:46.979016+00:00",
+      "listingVersion": "1.261030.19",
+      "listingVersionReleasedAtUTC": "2026-11-01T04:27:08Z",
+      "metadataLocalPath": "build/references/claude-lookup-20261103T023446784507Z/lookup.json",
+      "metadataSHA256": "35f05b29534d5372b3eb1e88c43f5722e491f5e477bbdf3c19396e7ec40f5264",
+      "iphoneScreenshotsViewed": 9,
+      "ipadScreenshotsViewed": 1
+    },
+    {
+      "id": "chatgpt",
+      "appStoreId": 6448311069,
+      "name": "ChatGPT",
+      "seller": "OpenAI OpCo, LLC",
+      "storefront": "us",
+      "listingURL": "https://apps.apple.com/us/app/chatgpt/id6448311069",
+      "lookupURL": "https://itunes.apple.com/lookup?id=6448311069&country=us&entity=software",
+      "retrievedAtUTC": "2026-11-03T02:34:47.402616+00:00",
+      "listingVersion": "1.2026.293",
+      "listingVersionReleasedAtUTC": "2026-10-27T16:49:11Z",
+      "metadataLocalPath": "build/references/chatgpt-lookup-20261103T023446979100Z/lookup.json",
+      "metadataSHA256": "66ee4d506ea90af34ec5f1a83dd6472c7974c1dbcdc02b3137b17a9ad10bdaaf",
+      "iphoneScreenshotsViewed": 8,
+      "ipadScreenshotsViewed": 1
+    }
+  ],
+  "evidence": [
+    {
+      "id": "claude-iphone-1",
+      "source": "claude",
+      "metadataField": "screenshotUrls",
+      "indexOneBased": 1,
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/1c/12/82/1c128296-22b2-37b1-ca17-8a5f5a2fd612/Useful_answers.png/1320x2868bb.png",
+      "localPath": "build/references/claude-iphone-01-20261103T023508258821Z/screenshot.png",
+      "sha256": "461d531da0841cb929fd36ead0a4cc8eec9dc5eb836bce93e43a9515556486f0",
+      "viewed": true,
+      "visible": "Left menu glyph; right new-conversation and overflow glyphs; right-aligned neutral user bubble; unboxed assistant text; map result. The map is enlarged outside the application crop by the promotional composition."
+    },
+    {
+      "id": "claude-iphone-5",
+      "source": "claude",
+      "metadataField": "screenshotUrls",
+      "indexOneBased": 5,
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/8f/9a/52/8f9a52af-9b64-e3fd-1070-00c28791957d/Ideas_-__Files.png/1320x2868bb.png",
+      "localPath": "build/references/claude-iphone-05-20261103T023508259332Z/screenshot.png",
+      "sha256": "47a33c21ef28c8be84cc7e71442ef912749a7a96cdb32c2641a5d43793052401",
+      "viewed": true,
+      "visible": "Attachment thumbnails and filenames precede a user bubble. Assistant prose is unboxed. A file result shows a title and file type. Rounded bottom composer contains entered text above plus, model, microphone and send controls; send is accented orange."
+    },
+    {
+      "id": "claude-iphone-7",
+      "source": "claude",
+      "metadataField": "screenshotUrls",
+      "indexOneBased": 7,
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/c4/d3/aa/c4d3aa0f-fce5-4345-336e-f85883fade48/Code_Review.png/1320x2868bb.png",
+      "localPath": "build/references/claude-iphone-07-20261103T023508259370Z/screenshot.png",
+      "sha256": "2d7634f468d32c5f6baa7ed06ce0ba1ec493782861e3f4bd8c94696eb3f127b9",
+      "viewed": true,
+      "visible": "Task filters All, Blocked, In progress and partial Done; rows with task title, time, icon and context. An enlarged approval card contains task title, project, question and Approve. This image is a staged task-list composition, not a verified navigation flow."
+    },
+    {
+      "id": "claude-iphone-9",
+      "source": "claude",
+      "metadataField": "screenshotUrls",
+      "indexOneBased": 9,
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/83/67/63/83676363-e89b-1b82-1eb3-b67b17dce5a6/End_Card.png/1320x2868bb.png",
+      "localPath": "build/references/claude-iphone-09-20261103T023642996781Z/screenshot.png",
+      "sha256": "4bf75b3cefb568cec3f511cfb60af7f0c6acdd144b610648a295273e8aa09de7",
+      "viewed": true,
+      "visible": "Angled phone photograph shows Claude mark, a single What are you thinking? prompt, and a nearby composer. No stack of feature cards is visible in the unobscured area. Exact placement and hidden controls cannot be established."
+    },
+    {
+      "id": "claude-ipad-1",
+      "source": "claude",
+      "metadataField": "ipadScreenshotUrls",
+      "indexOneBased": 1,
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/6e/28/58/6e285826-9005-eec6-b286-eee5cb1f2e03/US__U00282_U0029.png/1320x2868bb.png",
+      "localPath": "build/references/claude-ipad-01-20261103T023508259404Z/screenshot.png",
+      "sha256": "ec121b343352046a047dafd171d0bb73adf6cada9086d0861d2873ee4a6f289f",
+      "viewed": true,
+      "visible": "Wider conversation presentation with neutral user bubble, assistant prose, map result and bottom composer. Menu and new-conversation/overflow glyphs occupy the top corners; no sidebar is open."
+    },
+    {
+      "id": "chatgpt-iphone-1",
+      "source": "chatgpt",
+      "metadataField": "screenshotUrls",
+      "indexOneBased": 1,
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/a1/39/1d/a1391d37-04ea-8ead-62eb-d925b773ed4a/1_iPhone.jpg/1320x2868bb.png",
+      "localPath": "build/references/chatgpt-iphone-01-20261103T023509089071Z/screenshot.png",
+      "sha256": "b04475723caa07d55a2d892e25780166dd10df6333708ac5d78ca336c8d5e4a2",
+      "viewed": true,
+      "visible": "Menu at top left, compose and overflow at top right; right-aligned pale-blue prompts and left-aligned images; bottom pill composer with plus, placeholder, microphone and blue voice control. Pastel gradient is outside the device screen."
+    },
+    {
+      "id": "chatgpt-iphone-3",
+      "source": "chatgpt",
+      "metadataField": "screenshotUrls",
+      "indexOneBased": 3,
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/ad/c7/1f/adc71f08-c935-fd79-c6c8-e5ba2d690bea/3_iPhone.jpg/1320x2868bb.png",
+      "localPath": "build/references/chatgpt-iphone-03-20261103T023509362142Z/screenshot.png",
+      "sha256": "425be9f6f52519d244e16d7f354992f801f340d0776818ce650479a87bacb1b9",
+      "viewed": true,
+      "visible": "Short user prompt in a right bubble; two unboxed left-aligned assistant paragraphs; muted copy, speaker, thumbs, retry and share glyphs directly below response; generous unused canvas; bottom composer."
+    },
+    {
+      "id": "chatgpt-iphone-5",
+      "source": "chatgpt",
+      "metadataField": "screenshotUrls",
+      "indexOneBased": 5,
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/12/5c/27/125c27ea-cdf2-28d1-0dda-7ebc3a9cae3e/5_iPhone.jpg/1320x2868bb.png",
+      "localPath": "build/references/chatgpt-iphone-05-20261103T023509486837Z/screenshot.png",
+      "sha256": "9ee82efbba7cfc014cf9b28acad9eb0029b445d0b22b1f40d0c8df9abaa01036",
+      "viewed": true,
+      "visible": "Image attachment sits above its user prompt. Assistant response uses short bold headings and paragraphs on the plain canvas; no surrounding assistant card. Composer overlays the bottom edge of the long response in the static image."
+    },
+    {
+      "id": "chatgpt-iphone-8",
+      "source": "chatgpt",
+      "metadataField": "screenshotUrls",
+      "indexOneBased": 8,
+      "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/5c/db/10/5cdb105e-af27-71d9-ab5a-9d1d248c42ab/8_iPhone.jpg/1320x2868bb.png",
+      "localPath": "build/references/chatgpt-iphone-08-20261103T023645347458Z/screenshot.png",
+      "sha256": "ee1ee14ca1f3516bbc419d1654179db6d2927b685167b87423275d66d19ce476",
+      "viewed": true,
+      "visible": "An email draft has its own subdued bordered surface with type, recipients, subject and body; edit/copy/send glyphs are attached to that object. Surrounding conversation canvas stays plain."
+    }
+  ],
+  "observedPatterns": [
+    {
+      "id": "hierarchy",
+      "evidence": ["claude-iphone-1", "chatgpt-iphone-3"],
+      "observed": "Inside the app crop, small navigation controls frame a large conversation area. Large promotional headlines belong outside the app crop.",
+      "apply": "Use an inline native navigation title and compact toolbar; allocate the main viewport to conversation or a single useful empty state. Remove the giant product slogan and stacked introductory feature cards."
+    },
+    {
+      "id": "history-entry",
+      "evidence": ["claude-iphone-1", "claude-ipad-1", "chatgpt-iphone-1"],
+      "observed": "A menu glyph consistently appears at the left and creation/overflow glyphs at the right. An opened history drawer and its grouping are not visible.",
+      "apply": "Provide a clearly labelled history entry and native searchable conversation list, with iPad sidebar/detail. Row structure, search and grouping are DSH proposals, not claims about these apps' hidden drawers."
+    },
+    {
+      "id": "empty-state",
+      "evidence": ["claude-iphone-9"],
+      "observed": "The visible Claude empty conversation has one short invitation and a composer, with ample blank space. The source is an angled photo, not a full flat capture.",
+      "apply": "Use one short Chinese prompt and at most two actionable text rows. In the current preview expose a clearly labelled local-demo entry and real computer-discovery entry; show an active composer only inside the explicit demo or a future capable remote session."
+    },
+    {
+      "id": "composer",
+      "evidence": ["claude-iphone-5", "claude-ipad-1", "chatgpt-iphone-3"],
+      "observed": "A single rounded input surface groups text and adjacent controls. Claude's example has text above a control row; ChatGPT's short composer fits controls on one row.",
+      "apply": "Keep one native multiline composer in a keyboard-aware safe-area inset. Use restrained border/fill and one send-or-stop control. Omit attachment, voice and model-picker controls until their actual capability exists; do not copy screenshot model names."
+    },
+    {
+      "id": "message-roles",
+      "evidence": ["claude-iphone-1", "claude-iphone-5", "chatgpt-iphone-3"],
+      "observed": "User text sits in right-aligned tinted bubbles; assistant text is left-aligned and unboxed. No repeated large assistant identity heading is visible in these crops.",
+      "apply": "Retain compact pale-blue or neutral user bubbles and unboxed assistant prose. Remove repeated decorative sparkle/brand rows before every answer; preserve accessible role semantics."
+    },
+    {
+      "id": "reading-rhythm",
+      "evidence": ["chatgpt-iphone-3", "chatgpt-iphone-5", "claude-iphone-5"],
+      "observed": "Paragraph spacing and modest headings organize assistant content. ChatGPT uses sans-serif prose; Claude's visible assistant prose is serif, so there is no shared typeface to replicate.",
+      "apply": "Choose native system text styles for DSH Chinese content, with readable paragraph spacing and a restrained width on iPad. Treat exact sizes, line lengths and Dynamic Type behavior as implementation choices requiring native verification."
+    },
+    {
+      "id": "secondary-actions",
+      "evidence": ["chatgpt-iphone-3", "chatgpt-iphone-8"],
+      "observed": "Muted answer-action glyphs sit immediately after the answer; an email object keeps its own actions inside its header.",
+      "apply": "Place the implemented copy action beneath the completed answer in a quiet row; give it a native accessibility label and adequate hit target. Do not add nonfunctional rating, retry, share or read-aloud controls for visual similarity."
+    },
+    {
+      "id": "surfaces-and-accent",
+      "evidence": ["claude-iphone-5", "chatgpt-iphone-3", "chatgpt-iphone-8"],
+      "observed": "Conversation canvases are mainly white or warm neutral, with subtle input and user-message surfaces. Strong accent appears on selected actions; the surrounding marketing photography and gradients are not the conversation background.",
+      "apply": "Use white/near-black native canvases, quiet separators and limited neutral surfaces. Keep documented DeepSeek blue for functional focus, selected state and send controls; avoid decorative gradients, large tinted panels and repeated heavy shadows."
+    },
+    {
+      "id": "meaningful-containers",
+      "evidence": ["claude-iphone-5", "chatgpt-iphone-8"],
+      "observed": "Distinct containers identify concrete objects such as a file result or email draft, while ordinary assistant paragraphs stay on the canvas.",
+      "apply": "Reserve a compact container for a real structured object or pending approval. Present activity as a quiet disclosure row. Do not turn every explanation, navigation link or product benefit into a card."
+    },
+    {
+      "id": "task-context",
+      "evidence": ["claude-iphone-7"],
+      "observed": "The task-list composition places task title, time, project context and pending decision close together; an approval question has its action directly below it.",
+      "apply": "Keep an approval attached to its conversation. Show computer, workspace, exact operation and current validity in the detail sheet, with allow-once and reject actions. Use only actual timestamps and status; this source does not establish acknowledgment or execution semantics."
+    }
+  ],
+  "proposedNativeDesign": {
+    "status": "Recommendations for the parent implementation team; not applied by this research task",
+    "direction": "An understated conversation tool using native system typography and the project's documented DeepSeek functional accent.",
+    "shell": "NavigationSplitView where appropriate: searchable history on iPad; native navigation stack or sheet for history on iPhone. Toolbar contains title, history/back and new-conversation only when available. Computer discovery and settings remain reachable without occupying the transcript.",
+    "firstScreen": "Use a quiet DSH title and one short context sentence. Offer Try local conversation and Sign in to discover computers as real actions; no marketing hero, generic sparkle, numbered feature cards or invented capability badges. If a demo is already active, return to its conversation.",
+    "emptyConversation": "Single short invitation, optional useful example that fills the draft, then the composer. Keep the page sparse; do not fill unused space with product claims.",
+    "history": "Native searchable rows: title first, workspace/computer context second, pending state when real. Local demonstration sessions are visibly local and are never mixed into discovered-host data. Group only from actual dates if grouping is useful.",
+    "transcript": "Unboxed assistant prose; compact user bubble; contextual copy action; collapsed reasoning/activity; a small pending-approval entry that opens native details. Preserve reading position and return-to-latest behavior already present in source.",
+    "composer": "One rounded multiline field with send/stop, native keyboard handling and at least 44-point interactive targets. No model, microphone or attachment ornament without implemented support. Preserve draft isolation and disabled states.",
+    "modeBoundary": "One compact persistent Local demo label, with contextual explanation that replies are preset and commands are not executed. Keep destructive-exit explanations near exits and approval outcome explanations near decisions; remove repetitive decorative demo warnings from every surface.",
+    "discoveryBoundary": "Keep signed-in, discovered and secure-session states distinct. An online server-reported host does not enable a remote composer or acquire a connected/verified badge. Retain explicit loading, error, empty and offline states.",
+    "motion": "No animation observations can be drawn from these screenshots. Prefer native navigation, sheet and keyboard transitions; let the motion specialist validate interruptibility and Reduce Motion on the actual app.",
+    "validationNeeded": [
+      "Native compact-screen and iPad visual review, including keyboard and long Chinese content.",
+      "Dynamic Type, VoiceOver, light/dark contrast, reduced-motion and reduced-transparency checks.",
+      "Real service and Host validation before enabling any remote-session operation."
+    ]
+  },
+  "reuseBoundary": {
+    "borrow": ["Content-first hierarchy", "Compact navigation", "Composer grouping", "Message-role separation", "Contextual secondary actions", "Containers reserved for meaningful objects"],
+    "doNotCopy": ["Claude mark or wordmark", "OpenAI/ChatGPT mark or wordmark", "Proprietary icons or typefaces", "Promotional photography, illustrations, generated sample media or screenshot pixels", "Marketing slogans", "Model names, account states, counts or capabilities shown in examples"],
+    "assetPolicy": "Downloaded Apple-hosted images remain local research evidence under build/references. They are not licensed application assets and must not be bundled or copied into DSH branding. No upstream code or assets were copied."
+  },
+  "projectContext": {
+    "read": ["docs/README.md", "docs/architecture.md", "docs/product-design.md", "App/Views/ChatView.swift"],
+    "sourceBoundary": "At review time ChatView source included local-demo labels, per-session composer state, user bubbles, unboxed assistant prose, activity/approval containers and return-to-latest behavior. These are source observations, not runtime verification.",
+    "designConflictForParent": "The existing product-design document still recommends a welcome slogan and extensive preview messaging. Revise the owning bilingual specification to match the user's newly requested quiet chat direction; this researcher changed neither docs nor Swift source.",
+    "changedFile": "design/reference-study.json"
+  }
+}
